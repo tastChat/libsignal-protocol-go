@@ -6,17 +6,17 @@ package ecc
 import (
 	"crypto/sha512"
 
-	"github.com/agl/ed25519"
-	"github.com/agl/ed25519/edwards25519"
+	"github.com/tastChat/stellar-agl-ed25519"
+	"github.com/tastChat/stellar-agl-ed25519/edwards25519"
 )
 
 // sign signs the message with privateKey and returns a signature as a byte slice.
 func sign(privateKey *[32]byte, message []byte, random [64]byte) *[64]byte {
 
 	// Calculate Ed25519 public key from Curve25519 private key
-	var A edwards25519.ExtendedGroupElement
+	var A stellaragledwards25519.ExtendedGroupElement
 	var publicKey [32]byte
-	edwards25519.GeScalarMultBase(&A, privateKey)
+	stellaragledwards25519.GeScalarMultBase(&A, privateKey)
 	A.ToBytes(&publicKey)
 
 	// Calculate r
@@ -36,9 +36,9 @@ func sign(privateKey *[32]byte, message []byte, random [64]byte) *[64]byte {
 
 	// Calculate R
 	var rReduced [32]byte
-	edwards25519.ScReduce(&rReduced, &r)
-	var R edwards25519.ExtendedGroupElement
-	edwards25519.GeScalarMultBase(&R, &rReduced)
+	stellaragledwards25519.ScReduce(&rReduced, &r)
+	var R stellaragledwards25519.ExtendedGroupElement
+	stellaragledwards25519.GeScalarMultBase(&R, &rReduced)
 
 	var encodedR [32]byte
 	R.ToBytes(&encodedR)
@@ -51,10 +51,10 @@ func sign(privateKey *[32]byte, message []byte, random [64]byte) *[64]byte {
 	hash.Write(message)
 	hash.Sum(hramDigest[:0])
 	var hramDigestReduced [32]byte
-	edwards25519.ScReduce(&hramDigestReduced, &hramDigest)
+	stellaragledwards25519.ScReduce(&hramDigestReduced, &hramDigest)
 
 	var s [32]byte
-	edwards25519.ScMulAdd(&s, &hramDigestReduced, privateKey, &rReduced)
+	stellaragledwards25519.ScMulAdd(&s, &hramDigestReduced, privateKey, &rReduced)
 
 	signature := new([64]byte)
 	copy(signature[:], encodedR[:])
@@ -80,19 +80,19 @@ func verify(publicKey [32]byte, message []byte, signature *[64]byte) bool {
 	Then move the sign bit into the pubkey from the signature.
 	*/
 
-	var edY, one, montX, montXMinusOne, montXPlusOne edwards25519.FieldElement
-	edwards25519.FeFromBytes(&montX, &publicKey)
-	edwards25519.FeOne(&one)
-	edwards25519.FeSub(&montXMinusOne, &montX, &one)
-	edwards25519.FeAdd(&montXPlusOne, &montX, &one)
-	edwards25519.FeInvert(&montXPlusOne, &montXPlusOne)
-	edwards25519.FeMul(&edY, &montXMinusOne, &montXPlusOne)
+	var edY, one, montX, montXMinusOne, montXPlusOne stellaragledwards25519.FieldElement
+	stellaragledwards25519.FeFromBytes(&montX, &publicKey)
+	stellaragledwards25519.FeOne(&one)
+	stellaragledwards25519.FeSub(&montXMinusOne, &montX, &one)
+	stellaragledwards25519.FeAdd(&montXPlusOne, &montX, &one)
+	stellaragledwards25519.FeInvert(&montXPlusOne, &montXPlusOne)
+	stellaragledwards25519.FeMul(&edY, &montXMinusOne, &montXPlusOne)
 
 	var A_ed [32]byte
-	edwards25519.FeToBytes(&A_ed, &edY)
+	stellaragledwards25519.FeToBytes(&A_ed, &edY)
 
 	A_ed[31] |= signature[63] & 0x80
 	signature[63] &= 0x7F
 
-	return ed25519.Verify(&A_ed, message, signature)
+	return stellaragled25519.Verify(&A_ed, message, signature)
 }
