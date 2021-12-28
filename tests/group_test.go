@@ -1,12 +1,12 @@
 package tests
 
 import (
-	"github.com/RadicalApp/libsignal-protocol-go/groups"
-	"github.com/RadicalApp/libsignal-protocol-go/keys/prekey"
-	"github.com/RadicalApp/libsignal-protocol-go/logger"
-	"github.com/RadicalApp/libsignal-protocol-go/protocol"
-	"github.com/RadicalApp/libsignal-protocol-go/serialize"
-	"github.com/RadicalApp/libsignal-protocol-go/session"
+	"github.com/tastChat/libsignal-protocol-go/groups"
+	"github.com/tastChat/libsignal-protocol-go/keys/prekey"
+	"github.com/tastChat/libsignal-protocol-go/logger"
+	"github.com/tastChat/libsignal-protocol-go/protocol"
+	"github.com/tastChat/libsignal-protocol-go/serialize"
+	"github.com/tastChat/libsignal-protocol-go/session"
 	"testing"
 )
 

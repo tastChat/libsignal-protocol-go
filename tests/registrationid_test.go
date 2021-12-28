@@ -2,7 +2,7 @@ package tests
 
 import (
 	"fmt"
-	"github.com/RadicalApp/libsignal-protocol-go/util/keyhelper"
+	"github.com/tastChat/libsignal-protocol-go/util/keyhelper"
 	"testing"
 )
 

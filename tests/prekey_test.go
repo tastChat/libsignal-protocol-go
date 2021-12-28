@@ -1,9 +1,9 @@
 package tests
 
 import (
-	"github.com/RadicalApp/libsignal-protocol-go/logger"
-	"github.com/RadicalApp/libsignal-protocol-go/serialize"
-	"github.com/RadicalApp/libsignal-protocol-go/util/keyhelper"
+	"github.com/tastChat/libsignal-protocol-go/logger"
+	"github.com/tastChat/libsignal-protocol-go/serialize"
+	"github.com/tastChat/libsignal-protocol-go/util/keyhelper"
 	"testing"
 )
 
